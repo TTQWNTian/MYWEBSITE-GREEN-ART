@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>练习</title>
+    <style>
+        :root {
+            --title-color: #131313;
+            --font-color: #a4ebc2;
+            --background-color: #28ac5f;
+            --light-color: #ffffff;
+        }
+
+        ::selection {
+            background: var(--font-color);
+            color: var(--background-color);
+        }
+
+        ::focus-visible {
+            outline: 2px solid var(--title-color);
+            /* 只在键盘 Tab 时出现 */
+            outline-offset: 2px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box !important;
+            transition: 0.3s;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: var(--font-color);
+            background-color: var(--background-color);
+            line-height: 1.5;
+            overflow-x: hidden !important;
+        }
+
+        /* 顶部悬停区域 */
+        .header-hover-area {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            z-index: 999;
+            background: transparent;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background-color: var(--title-color);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+            visibility: hidden;
+            transform: translateY(-100%);
+        }
+
+        /* 悬停区域hover时显示header */
+        .header-hover-area:hover~header {
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* header自身hover时保持显示 */
+        header:hover {
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            margin-left: auto;
+        }
+
+        nav a {
+            color: var(--font-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover {
+            color: var(--light-color);
+            text-decoration: var(--light-color) underline;
+            text-decoration-thickness: 2px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--font-color);
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 20rem;
+            line-height: 0.8;
+            color: var(--title-color);
+            user-select: none;
+        }
+
+        h2 {
+            font-size: 5rem;
+        }
+
+        h3 {
+            font-size: 3rem;
+            color: var(--title-color);
+        }
+
+        h4 {
+            font-size: 2.8rem;
+            color: var(--light-color);
+        }
+
+        p {
+            font-size: 2rem;
+        }
+
+        a {
+            color: var(--font-color);
+        }
+
+        a:hover {
+            color: var(--light-color);
+        }
+
+        main {
+            position: relative;
+        }
+
+        .bg {
+            position: relative;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            z-index: -999;
+        }
+
+        .bg h1 {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -997;
+        }
+
+        .bg h2 {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            z-index: -998;
+        }
+
+        .bg img {
+            position: absolute;
+            right: -200px;
+            bottom: 0;
+            width: 800px;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: -999;
+        }
+
+        .section1 {
+            padding: 10%;
+        }
+
+        .section2 {
+            height: 100vh;
+            background: url('assets/img/bg1.webp') no-repeat center center/cover;
+            color: var(--light-color);
+        }
+
+        .section2 .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 10%;
+            text-align: center;
+            backdrop-filter: blur(0) brightness(0.9);
+        }
+
+        .section2 .container:hover {
+            backdrop-filter: blur(5px) brightness(0.5);
+        }
+
+        .section2 p {
+            color: var(--font-color);
+        }
+
+        .section3 {
+            padding: 5%;
+            text-align: center;
+            background-color: var(--title-color);
+        }
+
+        .section3 h3 {
+            color: var(--light-color);
+        }
+
+        .section3 .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            margin: 40px auto;
+        }
+
+        .works-item {
+            background-color: var(--title-color);
+            padding: 20px;
+            cursor: pointer;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .works-item:hover {
+            background-color: var(--light-color);
+        }
+
+        .works-item:hover img {
+            filter: brightness(0.8);
+        }
+
+        .works-item:hover b {
+            color: var(--title-color);
+        }
+
+        @keyframes rotate3DOnce {
+            0% {
+                transform: perspective(1000px) rotateY(0deg);
+            }
+
+            100% {
+                transform: perspective(1000px) rotateY(360deg);
+            }
+        }
+
+        .works-item img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .works-item b {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--light-color);
+        }
+
+        .works-item p {
+            font-size: 1rem;
+        }
+
+        .section4 {
+            padding: 10%;
+            background-color: var(--light-color);
+        }
+
+        .section4 h3 {
+            color: var(--background-color);
+            margin-bottom: 20px;
+        }
+
+        .email-header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .section4 input {
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            border: none;
+            width: 49%;
+            background-color: var(--title-color);
+            color: var(--font-color);
+        }
+
+        .section4 textarea {
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            border: none;
+            background-color: var(--title-color);
+            color: var(--font-color);
+            display: block;
+            width: 100%;
+            height: 150px;
+            resize: vertical;
+            /* 禁止x方向放大，只允许y方向调整大小 */
+        }
+
+        .section4 button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: var(--background-color);
+            background-color: var(--font-color);
+            border: none;
+            cursor: pointer;
+        }
+
+        .section4 button:hover {
+            background-color: var(--title-color);
+            color: var(--font-color);
+        }
+
+        footer {
+            text-align: right;
+            padding: 10px 15px;
+            background-color: var(--title-color);
+            color: var(--font-color);
+        }
+
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 11rem;
+                writing-mode: vertical-rl;
+            }
+
+            h2 {
+                font-size: 3rem;
+                color: var(--light-color);
+            }
+
+            h3 {
+                font-size: 2rem;
+            }
+
+            h4 {
+                font-size: 1.8rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+            }
+
+            .bg img {
+                right: -200px;
+                width: 500px;
+            }
+
+            nav {
+                gap: 0;
+            }
+
+            nav a {
+                font-size: 0.9rem;
+                writing-mode: vertical-rl;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 悬停区域 -->
+    <div class="header-hover-area"></div>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">MYWEBSITE</a>
+        <nav>
+            <a href="#">Mail</a>
+            <a href="#">QQ</a>
+            <a href="#">Bilibili</a>
+            <a href="#">GitHub</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="bg">
+            <h1>HELLO WORLD</h1>
+            <h2>个人网站模板，这里是简短的介绍</h2>
+            <img src="assets/img/icon.webp" />
+        </div>
+        <section class="section1">
+            <h3>欢迎来到我的个人网站模板！</h3>
+            <p>
+                这是一个简单的个人网站模板，您可以根据需要进行修改和扩展。
+            </p>
+            <p>
+                使用此模板，您可以快速创建一个展示个人信息、项目和联系方式的网站。
+            </p>
+            <p>
+                欢迎访问<a href="">本模板的开源地址</a>，了解更多信息！
+            </p>
+        </section>
+        <section class="section2">
+            <div class="container">
+                <div>
+                    <h4 id="section2-h4">都去看唤我无名</h4>
+                    <p id="section2-p">这里写一句你想写的话，或者其他什么都行</p>
+                </div>
+            </div>
+        </section>
+        <section class="section3">
+            <h3>我的主要作品</h3>
+            <div class="container">
+                <div class="works-item">
+                    <img src="assets/img/icon.webp" alt="Dvnge Logo" />
+                    <b>Dvnge</b>
+                    <p>一款面向编程小白的视觉小说引擎</p>
+                </div>
+                <div class="works-item">
+                    <img src="assets/img/bg1.webp" alt="花茶起始页 Logo" />
+                    <b>花茶起始页</b>
+                    <p>美观又充满百合的浏览器起始页</p>
+                </div>
+                <div class="works-item">
+                    <img src="assets/img/bg1.webp" alt="圈圈日记 Logo" />
+                    <b>圈圈日记</b>
+                    <p>简洁方便的日记与规划软件</p>
+                </div>
+                <div class="works-item">
+                    <img src="assets/img/bg1.webp" alt="浮生 Logo" />
+                    <b>浮生</b>
+                    <p>一个同人游戏，我负责其程序</p>
+                </div>
+                <div class="works-item">
+                    <b>更多</b>
+                    <p>其他作品正在开发中~</p>
+                </div>
+            </div>
+        </section>
+        <section class="section4">
+            <h3>联系</h3>
+            <form id="contact-form" class="email-form">
+                <div class="email-header">
+                    <input type="email" id="user-email" placeholder="你的邮箱地址" required />
+                    <input type="text" id="email-subject" placeholder="邮件主题" required />
+                </div>
+                <textarea id="email-content" placeholder="邮件内容" required></textarea>
+                <button type="button" id="send-email-btn">发邮件给我</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>
+            &copy; 2025 Tian All rights reserved.
+        </p>
+    </footer>
+
+
+    <script>
+        // ------ JavaScript实现打字机效果 ------
+        const section2H4 = document.getElementById('section2-h4');
+        const section2P = document.getElementById('section2-p');
+        // 获取初始文本内容
+        const h4Text = section2H4.textContent.trim();
+        const pText = section2P.textContent.trim();
+        // 清空初始内容
+        section2H4.textContent = '';
+        section2P.textContent = '';
+        // 初始化索引
+        let h4Index = 0;
+        let pIndex = 0;
+        // 显示h4标题的函数
+        function typeEffectH4() {
+            if (h4Index < h4Text.length) {
+                section2H4.textContent += h4Text[h4Index];
+                h4Index++;
+                setTimeout(typeEffectH4, 100);
+            } else {
+                typeEffectP(); // 开始显示段落内容
+            }
+        }
+        // 显示段落内容的函数
+        function typeEffectP() {
+            if (pIndex < pText.length) {
+                section2P.textContent += pText[pIndex];
+                pIndex++;
+                setTimeout(typeEffectP, 100);
+            }
+        }
+        // 检测元素是否在视口中
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return rect.top >= 0 && rect.bottom <= window.innerHeight;
+        }
+        // 监听滚动事件
+        function handleScroll() {
+            if (isInViewport(section2H4)) {
+                window.removeEventListener('scroll', handleScroll);
+                typeEffectH4();
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+
+        // ------ JavaScript实现点击旋转动画 ------
+        const elements = document.querySelectorAll('.works-item');
+
+        // 为每个元素添加点击事件
+        elements.forEach(element => {
+            element.addEventListener('click', function () {
+                // 重置动画以确保每次点击都能重新播放
+                this.style.animation = 'none';
+
+                // 强制重排，确保动画重置生效
+                void this.offsetWidth;
+
+                // 应用旋转动画
+                this.style.animation = 'rotate3DOnce 1s ease forwards';
+
+                // 动画结束后移除动画效果
+                this.addEventListener('animationend', function () {
+                    // this.style.animation = '';
+                }, { once: true });
+            });
+        });
+
+        // ------ JavaScript实现邮件发送功能 ------
+        // 获取DOM元素
+        const sendEmailBtn = document.getElementById('send-email-btn');
+        const userEmailInput = document.getElementById('user-email');
+        const emailSubjectInput = document.getElementById('email-subject');
+        const emailContentInput = document.getElementById('email-content');
+
+        // 邮件发送功能
+        sendEmailBtn.addEventListener('click', function () {
+            // 获取表单值
+            const userEmail = userEmailInput.value.trim();
+            const emailSubject = emailSubjectInput.value.trim();
+            const emailContent = emailContentInput.value.trim();
+
+            // 验证表单
+            if (!userEmail || !emailSubject || !emailContent) {
+                alert('请填写所有字段！');
+                return;
+            }
+
+            // 验证邮箱格式
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(userEmail)) {
+                alert('请输入有效的邮箱地址！');
+                return;
+            }
+
+            // 你的邮箱地址
+            const myEmail = 'ttqwntian@qq.com';
+
+            // 创建邮件链接
+            const mailtoLink = `mailto:${myEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(`${emailContent}\n\n我的网站发送来的邮件`)}`;
+
+            // 打开默认邮件客户端
+            window.location.href = mailtoLink;
+
+            // 清空表单
+            setTimeout(() => {
+                // userEmailInput.value = '';
+                // emailSubjectInput.value = '';
+                // emailContentInput.value = '';
+                alert('请打开邮件客户端检查邮件内容并发送！');
+            }, 100);
+        });
+
+        // 按Enter键在输入框之间切换焦点
+        userEmailInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                emailSubjectInput.focus();
+            }
+        });
+
+        emailSubjectInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                emailContentInput.focus();
+            }
+        });
+
+        emailContentInput.addEventListener('keypress', function (e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                sendEmailBtn.click();
+            }
+        });
+
+    </script>
+</body>
+
+</html>
