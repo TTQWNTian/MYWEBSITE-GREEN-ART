@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CH">
-
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +19,6 @@
         
         ::focus-visible {
             outline: 2px solid var(--title-color);
-            /* 只在键盘 Tab 时出现 */
             outline-offset: 2px;
         }
         
@@ -41,7 +39,6 @@
             overflow-x: hidden !important;
         }
         
-        /* 顶部悬停区域 */
         .header-hover-area {
             position: fixed;
             top: 0;
@@ -67,13 +64,11 @@
             transform: translateY(-100%);
         }
         
-        /* 悬停区域hover时显示header */
         .header-hover-area:hover~header {
             visibility: visible;
             transform: translateY(0);
         }
         
-        /* header自身hover时保持显示 */
         header:hover {
             visibility: visible;
             transform: translateY(0);
@@ -310,7 +305,6 @@
             width: 100%;
             height: 150px;
             resize: vertical;
-            /* 禁止x方向放大，只允许y方向调整大小 */
         }
         
         .section4 button {
@@ -375,14 +369,12 @@
 </head>
 
 <body>
-    <!-- 悬停区域 -->
     <div class="header-hover-area"></div>
     
-    <!-- Header -->
     <header>
         <a href="#" class="logo">MYWEBSITE</a>
         <nav>
-            <a href="https://tian.html-5.me/html/blog.php">Blog</a>
+            <a href="#" id="language-switcher">EN</a>
             <a href="https://blog.csdn.net/2302_81102200?spm=1000.2115.3001.5343">CSDN</a>
             <a href="https://b23.tv/t9wb4xd">Bilibili</a>
             <a href="https://github.com/TTQWNTian">GitHub</a>
@@ -391,13 +383,13 @@
     
     <main>
         <div class="bg">
-            <h1>HELLO WORLD</h1>
-            <h2>欢迎来到我的个人网站，我是Tian。</h2>
+            <h1 id="hello-world">HELLO WORLD</h1>
+            <h2 id="welcome-text">欢迎来到我的个人网站，我是Tian。</h2>
             <img src="assets/img/icon.webp" />
         </div>
         <section class="section1">
-            <h3>关于我</h3>
-            <p>
+            <h3 id="about-title">关于我</h3>
+            <p id="about-text">
                 你好~我喜欢喝咖啡和纯牛奶，兴趣是编程、绘画等（网站的图片大多为我自己绘制）。
                 <br>
                 喜欢看比较文艺的电影、电视剧，音乐听日本的比较多，最喜欢宇多田光。
@@ -414,27 +406,27 @@
             </div>
         </section>
         <section class="section3">
-            <h3>主要作品</h3>
+            <h3 id="works-title">主要作品</h3>
             <div class="container">
                 <div class="works-item" onclick="jumplink('https://github.com/TTQWNTian/Dvnge')">
                     <img src="assets/img/icon.webp" alt="Dvnge Logo" />
                     <b>Dvnge</b>
-                    <p>一款面向编程小白的视觉小说引擎</p>
+                    <p id="works1-desc">一款面向编程小白的视觉小说引擎</p>
                 </div>
                 <div class="works-item" onclick="jumplink('https://huacha.10001mb.com/')">
                     <img src="assets/img/huacha.webp" alt="花茶起始页 Logo" />
                     <b>花茶起始页</b>
-                    <p>美观又充满百合的浏览器起始页</p>
+                    <p id="works2-desc">美观又充满百合的浏览器起始页</p>
                 </div>
                 <div class="works-item" onclick="setTimeout(() => {alert('₍˄·͈༝·͈˄*₎੭喵~')}, 1200);">
                     <b>:D</b>
-                    <p>更多项目正在开发中</p>
+                    <p id="works3-desc">更多项目正在开发中</p>
                 </div>
                 <!-- 可加n个 -->
             </div>
         </section>
         <section class="section4">
-            <h3>联系</h3>
+            <h3 id="contact-title">联系</h3>
             <form id="contact-form" class="email-form">
                 <div class="email-header">
                     <input type="text" id="visitor-info" placeholder="名字或个人网站" required />
@@ -446,7 +438,7 @@
         </section>
     </main>
     <footer>
-        <p>
+        <p id="footer-text">
             &copy; 2025 Tian All rights reserved.
         </p>
     </footer>
@@ -570,7 +562,129 @@
                 window.location.href = url;
             }, 1200);
         }
+        
+        // ------ 语言切换功能 ------
+        const translations = {
+            zh: {
+                langBtn: "EN",
+                helloWorld: "HELLO WORLD",
+                welcome: "欢迎来到我的个人网站，我是Tian。",
+                about: "关于我",
+                aboutText: "你好~我喜欢喝咖啡和纯牛奶，兴趣是编程、绘画等（网站的图片大多为我自己绘制）。<br>喜欢看比较文艺的电影、电视剧，音乐听日本的比较多，最喜欢宇多田光。<br>在本网站您可以快速看到我的个人信息、主要项目和联系方式...欢迎访问<a href='https://github.com/TTQWNTian/MYWEBSITE-GREEN-ART'>本模板的开源地址</a>，了解更多信息！",
+                movieTitle: "都去看唤我无名",
+                movieDesc: "超级好看，画面美剧情也精彩！",
+                works: "主要作品",
+                works1: "一款面向编程小白的视觉小说引擎",
+                works2: "美观又充满百合的浏览器起始页",
+                works3: "更多项目正在开发中",
+                contact: "联系",
+                namePlaceholder: "名字或个人网站",
+                subjectPlaceholder: "邮件主题",
+                contentPlaceholder: "邮件内容",
+                sendBtn: "发邮件给我",
+                footer: "&copy; 2025 Tian All rights reserved."
+            },
+            en: {
+                langBtn: "JP",
+                helloWorld: "HELLO WORLD",
+                welcome: "Welcome to my personal website, I'm Tian.",
+                about: "About Me",
+                aboutText: "Hello~ I like drinking coffee and pure milk, my hobbies are programming, painting, etc. (Most pictures on the website are drawn by myself).<br>I enjoy watching artistic films and TV shows, I listen to Japanese music more often, and my favorite singer is Utada Hikaru.<br>On this website you can quickly see my personal information, main projects and contact details... Welcome to visit the <a href='https://github.com/TTQWNTian/MYWEBSITE-GREEN-ART'>open source repository of this template</a> to learn more!",
+                movieTitle: "Must Watch Call Me Nameless",
+                movieDesc: "Super amazing, beautiful visuals and exciting plot!",
+                works: "Main Works",
+                works1: "A visual novel engine for programming beginners",
+                works2: "A beautiful browser homepage full of yuri themes",
+                works3: "More projects are in development",
+                contact: "Contact",
+                namePlaceholder: "Name or Website",
+                subjectPlaceholder: "Email Subject",
+                contentPlaceholder: "Email Content",
+                sendBtn: "Send Email to Me",
+                footer: "&copy; 2025 Tian All rights reserved."
+            },
+            ja: {
+                langBtn: "中",
+                helloWorld: "HELLO WORLD",
+                welcome: "私の個人ウェブサイトへようこそ、私はTianです。",
+                about: "私について",
+                aboutText: "こんにちは〜私はコーヒーと純粋な牛乳を飲むのが好きで、趣味はプログラミング、絵画などです（ウェブサイトの画像のほとんどは私自身が描いたものです）。<br>芸術的な映画やドラマを見るのが好きで、音楽は日本のものが多く、一番好きな歌手は宇多田ヒカルです。<br>このウェブサイトでは、私の個人情報、主なプロジェクト、連絡先などをすばやく確認できます...<a href='https://github.com/TTQWNTian/MYWEBSITE-GREEN-ART'>このテンプレートのオープンソースリポジトリ</a>を訪問して、詳細をご覧ください！",
+                movieTitle: "『Call Me Nameless』を見よう",
+                movieDesc: "超おすすめ、美しい映像と面白いストーリー！",
+                works: "主な作品",
+                works1: "プログラミング初心者のためのビジュアルノベルエンジン",
+                works2: "百合テーマ満載の美しいブラウザホームページ",
+                works3: "さらに多くのプロジェクトが開発中",
+                contact: "連絡",
+                namePlaceholder: "名前またはウェブサイト",
+                subjectPlaceholder: "メール件名",
+                contentPlaceholder: "メール内容",
+                sendBtn: "メールを送信",
+                footer: "&copy; 2025 Tian All rights reserved."
+            }
+        };
+
+        let currentLang = 'zh';
+
+        function switchLanguage() {
+            if (currentLang === 'zh') {
+                currentLang = 'en';
+            } else if (currentLang === 'en') {
+                currentLang = 'ja';
+            } else {
+                currentLang = 'zh';
+            }
+            
+            applyLanguage();
+            localStorage.setItem('site_lang', currentLang);
+        }
+
+        function applyLanguage() {
+            const t = translations[currentLang];
+            
+            document.getElementById('language-switcher').textContent = t.langBtn;
+            document.getElementById('hello-world').textContent = t.helloWorld;
+            document.getElementById('welcome-text').textContent = t.welcome;
+            document.getElementById('about-title').textContent = t.about;
+            document.getElementById('about-text').innerHTML = t.aboutText;
+            document.getElementById('section2-h4').textContent = t.movieTitle;
+            document.getElementById('section2-p').textContent = t.movieDesc;
+            document.getElementById('works-title').textContent = t.works;
+            document.getElementById('works1-desc').textContent = t.works1;
+            document.getElementById('works2-desc').textContent = t.works2;
+            document.getElementById('works3-desc').textContent = t.works3;
+            document.getElementById('contact-title').textContent = t.contact;
+            document.getElementById('visitor-info').placeholder = t.namePlaceholder;
+            document.getElementById('email-subject').placeholder = t.subjectPlaceholder;
+            document.getElementById('email-content').placeholder = t.contentPlaceholder;
+            document.getElementById('send-email-btn').textContent = t.sendBtn;
+            document.getElementById('footer-text').innerHTML = t.footer;
+            
+            document.documentElement.lang = currentLang;
+        }
+
+        function initLanguage() {
+            const savedLang = localStorage.getItem('site_lang');
+            if (savedLang && translations[savedLang]) {
+                currentLang = savedLang;
+            } else {
+                const browserLang = navigator.language.toLowerCase();
+                if (browserLang.startsWith('en')) {
+                    currentLang = 'en';
+                } else if (browserLang.startsWith('ja')) {
+                    currentLang = 'ja';
+                }
+            }
+            
+            applyLanguage();
+        }
+
+        document.getElementById('language-switcher').addEventListener('click', function(e) {
+            e.preventDefault();
+            switchLanguage();
+        });
+
+        initLanguage();
     </script>
 </body>
-
 </html>
